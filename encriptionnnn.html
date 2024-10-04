@@ -1,0 +1,54 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encryption and Decryption</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        textarea { width: 100%; height: 100px; }
+        button { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Text Encryption and Decryption</h1>
+    
+    <label for="textInput">Enter text:</label>
+    <textarea id="textInput"></textarea>
+    
+    <label for="shift">Shift (1-25):</label>
+    <input type="number" id="shift" min="1" max="25" value="3">
+    
+    <button onclick="encryptText()">Encrypt</button>
+    <button onclick="decryptText()">Decrypt</button>
+    
+    <h2>Output:</h2>
+    <textarea id="output" readonly></textarea>
+
+    <script>
+        function encryptText() {
+            const input = document.getElementById('textInput').value;
+            const shift = parseInt(document.getElementById('shift').value);
+            document.getElementById('output').value = caesarCipher(input, shift);
+        }
+
+        function decryptText() {
+            const input = document.getElementById('textInput').value;
+            const shift = parseInt(document.getElementById('shift').value);
+            document.getElementById('output').value = caesarCipher(input, -shift);
+        }
+
+        function caesarCipher(text, shift) {
+            return text.split('').map(char => {
+                if (char.match(/[a-z]/i)) {
+                    const code = char.charCodeAt();
+                    const offset = char === char.toUpperCase() ? 65 : 97;
+                    return String.fromCharCode(((code - offset + shift + 26) % 26) + offset);
+                }
+                return char; // Non-alphabetical characters remain unchanged
+            }).join('');
+        }
+    </script>
+</body>
+</html>
+Explanation
